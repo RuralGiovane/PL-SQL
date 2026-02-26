@@ -1,1 +1,0 @@
-@'C:\Users\giova\Downloads\SQL_Aula1\SCRIPT_MODELO_PEDIDO(1).SQL';
