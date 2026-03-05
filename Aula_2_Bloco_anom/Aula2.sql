@@ -20,7 +20,7 @@ END;
 
 --------------------------------------------------------------//--------------------------------------------------------------
 /*
-Exercicio 1
+Exercicio 2
 
 Criei um bloco anônimo que faça a conversão de reais para dólares
 
@@ -69,7 +69,7 @@ END;
 
 --------------------------------------------------------------//--------------------------------------------------------------
 /*
-Exercicio 2 
+Exercicio 3 
 
 Em tempo de execução simule a compra de um carro em que o usuário irá dar 20% de entrada do valor e parcelar em 10x o restante do valor
 
@@ -120,3 +120,126 @@ BEGIN
     valorfinanciado := ( parcelas * qtdparcelas ) + entrada;
     dbms_output.put_line('Valor total do Carro Financiado  R$  : ' || valorfinanciado);
 END;
+
+
+
+--Exercicio 4
+
+/*
+Enunciado
+
+Criar um bloco PL-SQL para calcular o valor de cada parcela de uma compra de um carro, nas seguintes condições:
+- Parcelas para aquisição em 6 pagamentos
+- Parcelas para aquisição em 12 pagamentos
+- Parcelas para aquisição em 18 pagamentos
+
+OBSERVAÇÃO:
+1 - Deverá ser dada uma entrada de 20% do valor da compra
+2 - No final informar o valor das parcelas para as 3 formas de pagamento com o Valor de aquisição de 10.000 e o mesmo com entrada de dados via teclado(em tempo) 
+3 - Deverá ser aplicada uma taxa juros, no saldo restante, nas seguintes condições
+
+A - Pagamento em 6 parcelas: 10%
+B - Pagamento em 12 parcelas: 15%
+C - Pagamento em 18 parcelas: 20%
+*/
+
+--Resolução Pessoal
+SET SERVEROUTPUT ON;
+DECLARE
+    valor_carro         NUMBER := &valor;
+    valor_entrada       NUMBER := 0.2;
+    valor_financiado    NUMBER;
+    parcela             NUMBER;
+BEGIN
+    dbms_output.put_line('valor do Carro : R$' || valor_carro);
+    valor_entrada := valor_carro * valor_entrada;
+    dbms_output.put_line('O valor da entrada R$: ' || valor_entrada);
+    valor_financiado := valor_carro - valor_entrada;
+    dbms_output.put_line('Valor Financiado R$  : ' || valor_financiado);
+    parcela := valor_financiado * 1.10;
+    valor_financiado := parcela + valor_entrada;
+    dbms_output.put_line('Valor das Parcelas em 6 vezes R$  : ' || round((valor_financiado/6),2));
+    dbms_output.put_line('Valor total financiado em 6 vezes R$  : ' || valor_financiado);
+
+   parcela := valor_financiado * 1.15;
+   valor_financiado := parcela + valor_entrada;
+   dbms_output.put_line('Valor das Parcelas em 12 vezes R$  : ' || round((valor_financiado/12),2));
+   dbms_output.put_line('Valor total financiado em 12 vezes R$  : ' || valor_financiado);
+
+   parcela := valor_financiado * 1.20;
+   valor_financiado := parcela + valor_entrada;
+   dbms_output.put_line('Valor das Parcelas em 18 vezes R$  : ' || round((valor_financiado/18),2));
+   dbms_output.put_line('Valor total financiado em 18 vezes R$  : ' || valor_financiado);
+END;
+
+--Correção do professor declarando multiplas variáveis
+   SET SERVEROUTPUT ON;
+declare
+    valorcarro        number := &valor;
+    valorentrada      number := 0.2;
+    valorfinanciado   number;
+    parcela6x         number;
+    parcela12x        number;
+    parcela18x        number;
+
+    valorfinanciado6x number;
+    valorfinanciado12x number;
+    valorfinanciado18x number;
+
+begin
+   dbms_output.put_line('valor do Carro : R$' || valorcarro);
+   valorentrada := valorcarro * valorentrada;
+   dbms_output.put_line('O valor da entrada R$: ' || valorentrada);
+   valorfinanciado := valorcarro - valorentrada;
+   dbms_output.put_line('Valor Financiado R$  : ' || valorfinanciado);
+   parcela6x := valorfinanciado * 1.10;
+   valorfinanciado6x := parcela6x + valorentrada;
+   dbms_output.put_line('Valor das Parcelas em 6 vezes R$  : ' || round((valorfinanciado6x/6),2));
+   dbms_output.put_line('Valor total financiado em 6 vezes R$  : ' || valorfinanciado6x);
+
+   parcela12x := valorfinanciado * 1.15;
+   valorfinanciado12x := parcela12x + valorentrada;
+   dbms_output.put_line('Valor das Parcelas em 12 vezes R$  : ' || round((valorfinanciado12x/12),2));
+   dbms_output.put_line('Valor total financiado em 12 vezes R$  : ' || valorfinanciado12x);
+
+   parcela18x := valorfinanciado * 1.20;
+   valorfinanciado18x := parcela18x + valorentrada;
+   dbms_output.put_line('Valor das Parcelas em 18 vezes R$  : ' || round((valorfinanciado18x/18),2));
+   dbms_output.put_line('Valor total financiado em 18 vezes R$  : ' || valorfinanciado18x);
+end;
+
+--Resolvendo o mesmo exercicio usando condicionais - Resposta pessoal
+   SET SERVEROUTPUT ON;
+DECLARE
+    valor_carro         NUMBER := &valor_carro;
+    parcela             NUMBER := &valor_parcela;
+    valor_entrada       NUMBER := 0.2;
+    valor_financiado    NUMBER;
+
+BEGIN
+    dbms_output.put_line('valor do Carro : R$' || valor_carro);
+    valor_entrada := valor_carro * valor_entrada;
+    dbms_output.put_line('O valor da entrada R$: ' || valor_entrada);
+    valor_financiado := valor_carro - valor_entrada;
+    dbms_output.put_line('Valor Financiado R$  : ' || valor_financiado);
+    IF(parcela) = 6 THEN
+        parcela := valor_financiado * 1.10;
+        valor_financiado := parcela + valor_entrada;
+        dbms_output.put_line('Valor das Parcelas em 6 vezes R$  : ' || round((valor_financiado/6),2));
+        dbms_output.put_line('Valor total financiado em 6 vezes R$  : ' || valor_financiado);
+    ELSIF(parcela) = 12 THEN
+        parcela := valor_financiado * 1.15;
+        valor_financiado := parcela + valor_entrada;
+        dbms_output.put_line('Valor das Parcelas em 12 vezes R$  : ' || round((valor_financiado/12),2));
+        dbms_output.put_line('Valor total financiado em 12 vezes R$  : ' || valor_financiado);
+    ELSIF(parcela) = 18 THEN
+        parcela := valor_financiado * 1.20;
+        valor_financiado := parcela + valor_entrada;
+        dbms_output.put_line('Valor das Parcelas em 18 vezes R$  : ' || round((valor_financiado/12),2));
+        dbms_output.put_line('Valor total financiado em 18 vezes R$  : ' || valor_financiado);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Essa quantidade de parcelas não está disponivel');
+    END IF;
+END;
+
+-- Correção Professor
